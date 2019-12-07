@@ -50,11 +50,12 @@ export const initializeAuth = () => {
         localStorage.removeItem(localStorageKey('redirectPath'))
     }
     /* If non-signed in user tries accessing a competition path, redirect to OAuth sign in straightaway. */
-    const path = window.location.pathname
-    if (path !== '/' && !isSignedIn()) {
-        localStorage.setItem(localStorageKey('redirectPath'), path)
-        signIn()
-    }
+    // Should be restricted to /admin paths. Removing temporarily
+    // const path = window.location.pathname
+    // if (path !== '/' && !isSignedIn()) {
+    //     localStorage.setItem(localStorageKey('redirectPath'), path)
+    //     signIn()
+    // }
 }
 
 export const signIn = () => {
@@ -76,7 +77,7 @@ const oauthRedirectUri = () => {
     const appUri = window.location.origin
     const searchParams = new URLSearchParams(window.location.search)
     const stagingParam = searchParams.has('staging')
-    return stagingParam ? `${appUri}?staging=true` : appUri
+    return stagingParam ? `${appUri}/admin?staging=true` : `${appUri}/admin`
 }
 
 export const signOut = () => {
