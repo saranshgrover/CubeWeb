@@ -10,13 +10,13 @@ import RoleSelect from './RoleSelect/RoleSelect'
 interface Props {}
 
 export default function Admin({}: Props): React.ReactElement {
-    return (
-        <div>
-            <Route exact path='/admin/judge' component={Judge} />
-            <Route exact path='/admin/scramble' component={Scramble} />
-            <Route exact path='/admin/organizer' component={Organizer} />
-            <Route exact path='/admin/delegate' component={Delegate} />
-            <Route exact path='/admin/' component={RoleSelect} />
-        </div>
-    )
+	return (
+		<>
+			<Route exact path='/admin/judge' component={Judge} />
+			<Route exact path='/admin/scramble' component={Scramble} />
+			<Route exact path='/admin/organizer' component={Organizer} />
+			<Route exact path='/admin/delegate' component={Delegate} />
+			<Route exact path='/admin/' component={RoleSelect} />
+		</>
+	)
 }
