@@ -1,6 +1,9 @@
 import { WCA_ORIGIN } from './wca-env'
 import { wcaAccessToken } from './auth'
 
+export const getWcifPublic = (competitionId: string) =>
+    wcaApiFetch(`/competitions/${competitionId}/wcif/public`)
+
 export const getMe = () => wcaApiFetch(`/me`)
 
 export const getMyUpcomingComps = (userId: string) => {

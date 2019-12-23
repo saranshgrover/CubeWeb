@@ -1,57 +1,83 @@
-import React, { useState } from 'react'
-import { Button, Typography, CircularProgress } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import {
+    Button,
+    Typography,
+    CircularProgress,
+    Container
+} from '@material-ui/core'
 import { signIn, signOut, isSignedIn } from '../../../server/auth'
 import { getMe } from '../../../server/wca-api'
-import CompetitionList from './CompetitionList'
+import { History } from 'history'
+import { getWcifPublic } from '../../../server/wca-api'
 
-interface Props {}
+interface Props {
+    history: History
+}
 
-export default function RoleSelect({}: Props): React.ReactElement {
-    let [userRequest, setUserRequest] = useState({
-        userInfo: undefined,
-        gotUserInfo: false
-    })
-    const handleLogOut = () => {
-        signOut()
-        setUserRequest({ userInfo: undefined, gotUserInfo: false })
+export default function RoleSelect({ history }: Props): React.ReactElement {
+    const [competitionId, setCompId] = useState('')
+
+    const goToAdminPage = (path: string): void => {
+        history.push(`/admin/${path}`)
     }
-    if (!userRequest.gotUserInfo && isSignedIn())
-        getMe().then(user => {
-            console.log(user.me)
-            setUserRequest({
-                userInfo: user.me,
-                gotUserInfo: true
-            })
-        })
-    if (isSignedIn() && !userRequest.gotUserInfo) return <CircularProgress />
-    else {
-        const myInfo = userRequest.userInfo || { name: 'Waiting to get data' }
-        return (
-            <div>
-                {isSignedIn() ? (
-                    <div>
-                        <Typography variant='h4'>
-                            Hello {myInfo.name}
-                        </Typography>
-                        <Button
-                            variant='contained'
-                            color='primary'
-                            onClick={handleLogOut}
-                        >
-                            Sign Out
-                        </Button>
-                        <CompetitionList userInfo={myInfo} />
-                    </div>
-                ) : (
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={signIn}
-                    >
-                        Sign in with the WCA
-                    </Button>
-                )}
-            </div>
-        )
+
+    const clearCompId = () => {
+        window.localStorage.removeItem('competitionId')
+        history.push(`/admin`)
     }
+
+    if (window.localStorage.getItem('competitionId') === null) {
+        history.push('/admin')
+    } else if (!competitionId) {
+        setCompId(window.localStorage.getItem('competitionId') || '')
+    }
+    if (competitionId)
+        getWcifPublic(competitionId).then(results => console.log(results))
+
+    return (
+        <Container style={{ marginTop: '20px' }}>
+            <Typography variant='h4' align='left'>
+                This is {competitionId}
+            </Typography>
+            <Typography variant='h6' align='left'>
+                Please select your role below
+            </Typography>
+            <Button
+                variant='contained'
+                style={{ marginRight: '5px' }}
+                color='primary'
+                onClick={() => goToAdminPage('judge')}
+            >
+                Judge
+            </Button>
+            <Button
+                variant='contained'
+                style={{ marginRight: '5px' }}
+                color='primary'
+                onClick={() => goToAdminPage('scramble')}
+            >
+                Scrambler
+            </Button>
+            <Button
+                variant='contained'
+                style={{ marginRight: '5px' }}
+                color='primary'
+                onClick={() => goToAdminPage('organizer')}
+            >
+                Organizer
+            </Button>
+            <Button
+                variant='contained'
+                style={{ marginRight: '5px' }}
+                color='primary'
+                onClick={() => goToAdminPage('delegate')}
+            >
+                Delegate
+            </Button>
+            <br></br>
+            <Button variant='contained' color='secondary' onClick={clearCompId}>
+                Clear Device Storage
+            </Button>
+        </Container>
+    )
 }
