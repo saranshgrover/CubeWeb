@@ -7,7 +7,7 @@ import {
     TextField
 } from '@material-ui/core'
 import { Redirect } from 'react-router-dom'
-import { getMyUpcomingComps } from '../../server/wca-api'
+import { getMyManagableComps } from '../../server/wca-api'
 import { History } from 'history'
 
 interface WCAUser {
@@ -43,10 +43,11 @@ export default function CompetitionList({
     }
 
     if (!userRequest.gotUserComps) {
-        console.log('Running upcoming comps...')
-        getMyUpcomingComps(userInfo.wca_id || '').then(results => {
+        console.log('Running managable comps...')
+        getMyManagableComps().then(results => {
+            console.log(results)
             setUserRequest({
-                userComps: results.upcoming_competitions,
+                userComps: results,
                 gotUserComps: true
             })
         })
