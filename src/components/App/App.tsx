@@ -3,18 +3,20 @@ import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Results from '../Results/Results'
 import Admin from '../Admin/Admin'
+import { CssBaseline, Link } from '@material-ui/core'
 
 const App: React.FC = () => {
-    return (
-        <div className='App'>
-            <Router>
-                <Switch>
-                    <Route path='/admin' component={Admin} />
-                    <Route path='/' component={Results} />
-                </Switch>
-            </Router>
-        </div>
-    )
+	return (
+		<>
+			<CssBaseline />
+			<Router>
+				<Switch>
+					<Route path='/admin' component={Admin} />
+					<Route path='/' component={Results} />
+				</Switch>
+			</Router>
+		</>
+	)
 }
 
 export default App
