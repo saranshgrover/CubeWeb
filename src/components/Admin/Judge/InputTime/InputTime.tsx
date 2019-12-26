@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Typography, Grid, Fade, Button } from '@material-ui/core'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import SolveInputField from './SolveInputField'
+import { validateInput } from '../../../../logic/judge'
 
 interface Props {
 	onComplete: (action: any) => void
@@ -19,7 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function InputTime({ onComplete }: Props): React.ReactElement {
 	const [time, setTime] = useState(0)
-	function handleComplete() {}
+	const [error, setError] = useState<null | string>(null)
+	function handleComplete() {
+		let validTime = validateInput(time)
+		validTime[0]
+			? onComplete({ time: validTime[1] })
+			: setError(validTime[2])
+	}
 	const classes = useStyles()
 	return (
 		<Fade in={true}>
@@ -38,11 +45,10 @@ export default function InputTime({ onComplete }: Props): React.ReactElement {
 				<Grid item>
 					<Button
 						onClick={handleComplete}
-						variant='outlined'
-						color='primary'
-						style={{ color: 'white', fontSize: '8vmin' }}
+						variant='contained'
+						style={{ fontSize: '8vmin' }}
 					>
-						Done
+						Submit
 					</Button>
 				</Grid>
 			</Grid>
