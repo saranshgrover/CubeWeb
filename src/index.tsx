@@ -4,8 +4,10 @@ import './index.css'
 import App from './components/App/App'
 import * as serviceWorker from './serviceWorker'
 import { initializeAuth } from './server/auth'
+import { initializeDatabase } from './server/database'
 
 initializeAuth()
+initializeDatabase()
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
