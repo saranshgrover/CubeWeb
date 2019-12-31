@@ -7,7 +7,8 @@ export enum Steps {
 	InputTime,
 	SignJudge,
 	SignCompetitor,
-	Complete
+	Complete,
+	__LENGTH
 }
 
 export type JudgeState = {

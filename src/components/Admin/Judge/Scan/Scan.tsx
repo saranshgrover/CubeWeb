@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 import QrReader from 'react-qr-reader'
-import { parseScan } from '../../../../logic/scan'
+import { parseScan } from '../../../../logic/judge'
 
 interface Props {
 	onComplete: (action: any) => void

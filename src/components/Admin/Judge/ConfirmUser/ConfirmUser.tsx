@@ -84,7 +84,7 @@ export default function ConfirmUser({
 								size='large'
 								variant='outlined'
 								color='primary'
-								onClick={onComplete}
+								onClick={() => onComplete({})}
 							>
 								Confirm
 							</Button>

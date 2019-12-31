@@ -33,7 +33,7 @@ export default function Begin({ onComplete }: Props): React.ReactElement {
 				direction='column'
 				justify='center'
 				alignItems='center'
-				onClick={onComplete}
+				onClick={() => onComplete({})}
 			>
 				<Grid item>
 					<Typography

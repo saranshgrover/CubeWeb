@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			fontSize: '30vmin',
 			fontWeight: 'lighter',
 			color: 'white',
-			border: '2px solid white',
+			borderBottom: '2px solid white',
 			width: '90vw',
 			height: '35vh',
 			textAlign: 'center'

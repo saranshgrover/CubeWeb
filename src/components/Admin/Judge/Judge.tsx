@@ -34,6 +34,7 @@ const initialState: JudgeState = {
 }
 
 function judgeReducer(state: JudgeState, action: Action) {
+	console.log(action)
 	switch (action.type) {
 		case 'BACK': {
 			return {
@@ -63,6 +64,9 @@ function judgeReducer(state: JudgeState, action: Action) {
 				penalty: newPenalty,
 				step: Steps.InputTime
 			}
+		}
+		case Steps.Complete: {
+			return initialState
 		}
 		default: {
 			return {
@@ -121,7 +125,8 @@ var getColorForPercentage = function(pct: any) {
 export default function Judge(): React.ReactElement {
 	const [state, dispatch] = useReducer(judgeReducer, initialState)
 	const handleComplete = (action: any) => {
-		dispatch({ type: Math.max(state.step + 1, 8), ...action })
+		console.log(action)
+		dispatch({ type: state.step, ...action })
 	}
 	const getStep = () => {
 		switch (state.step) {
@@ -138,11 +143,11 @@ export default function Judge(): React.ReactElement {
 			case Steps.InputTime:
 				return <InputTime onComplete={handleComplete} />
 			case Steps.SignJudge:
-				return <SignatureJudge />
+				return <SignatureJudge onComplete={handleComplete} />
 			case Steps.SignCompetitor:
-				return <SignatureCompetitor />
+				return <SignatureCompetitor onComplete={handleComplete} />
 			case Steps.Complete:
-				return <Complete />
+				return <Complete onComplete={handleComplete} />
 		}
 	}
 	const classes = useStyles()
@@ -150,7 +155,7 @@ export default function Judge(): React.ReactElement {
 		<div className={classes.root}>
 			<div className={classes.stepper}>
 				<MobileStepper
-					steps={steps.length}
+					steps={Steps.__LENGTH}
 					backButton={
 						<Button
 							onClick={() =>
@@ -179,7 +184,7 @@ export default function Judge(): React.ReactElement {
 			<div
 				className={classes.content}
 				style={{
-					backgroundColor: getColorForPercentage((state.step + 1) / 8)
+					backgroundColor: getColorForPercentage((state.step + 1) / 9)
 				}}
 			>
 				{getStep()}
